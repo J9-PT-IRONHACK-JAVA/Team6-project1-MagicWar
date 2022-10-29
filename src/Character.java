@@ -1,21 +1,32 @@
-public abstract class Character {
-    protected String id;
+public abstract class Character implements Attacker{
+    protected int id;
     protected String name;
     protected int hp;
     protected boolean isAlive;
 
-    public Character(String id, String name, int hp, boolean isAlive) {
+    public Character(int id, String name, int hp) {
         this.id = id;
         this.name = name;
         this.hp = hp;
-        this.isAlive = isAlive;
+        this.isAlive = true;
     }
 
-    public String getId() {
+    public boolean receiveDamage(int damage) {
+        if(hp > damage){
+            hp -= damage;
+        } else {
+            hp = 0;
+            isAlive = false;
+        }
+        return isAlive;
+    }
+
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -39,17 +50,8 @@ public abstract class Character {
         return isAlive;
     }
 
-    public void setAlive(boolean alive) {
-        isAlive = alive;
+    public void setAlive(boolean isAlive) {
+        this.isAlive = isAlive;
     }
 
-    @Override
-    public String toString() {
-        return "Character{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", hp=" + hp +
-                ", isAlive=" + isAlive +
-                '}';
-    }
 }
