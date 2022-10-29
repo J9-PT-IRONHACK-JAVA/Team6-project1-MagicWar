@@ -16,7 +16,7 @@ public class Main {
 
         System.out.println(party1.get(3).getClass());
 
-        Battle.executeFight(party1, party2);
+        Battle.executeRandomBattle(party1, party2);
 
     }
     public static ArrayList<Character> createPartyRandom() {
@@ -37,6 +37,7 @@ public class Main {
                 int randHp = rand.nextInt(201-100)+100;
                 int randStamina = rand.nextInt(51);
                 int randStrength = rand.nextInt(11);
+                // @TODO comprobar si el nombre existe y poner Jr.
                 var newWarrior = new Warrior(++idWar, warriorNameList[index], randHp, randStamina, randStrength);
                 P1.add(newWarrior);
 
@@ -45,6 +46,7 @@ public class Main {
                 int randHp = rand.nextInt(101-50)+50;
                 int randMana = rand.nextInt(51);
                 int randIntelligence = rand.nextInt(51);
+                // @TODO comprobar si el nombre existe y poner Jr.
                 var newWizard = new Wizard(++idWiz, wizardNameList[index], randHp, randMana, randIntelligence);
                 P1.add(newWizard);
             }
