@@ -28,7 +28,7 @@ public class Battle {
             System.out.println("Team 2 has won");
         }
 
-        System.out.println("Count your dead losing team: " + getDeadNames(graveyard));
+        System.out.println("Count your dead both teams: " + getDeadNames(graveyard));
 
     }
 

@@ -37,8 +37,10 @@ public class Main {
                 int randHp = rand.nextInt(201-100)+100;
                 int randStamina = rand.nextInt(51);
                 int randStrength = rand.nextInt(11);
-                // @TODO comprobar si el nombre existe y poner Jr.
                 var newWarrior = new Warrior(++idWar, warriorNameList[index], randHp, randStamina, randStrength);
+
+                // If the name already exists add Jr.
+                addJrToName(P1, newWarrior);
                 P1.add(newWarrior);
 
             } else {
@@ -46,12 +48,18 @@ public class Main {
                 int randHp = rand.nextInt(101-50)+50;
                 int randMana = rand.nextInt(51);
                 int randIntelligence = rand.nextInt(51);
-                // @TODO comprobar si el nombre existe y poner Jr.
                 var newWizard = new Wizard(++idWiz, wizardNameList[index], randHp, randMana, randIntelligence);
+                // If the name already exists add Jr.
+                addJrToName(P1, newWizard);
                 P1.add(newWizard);
             }
 
         }
         return P1;
+    }
+
+    private static void addJrToName(ArrayList<Character> P1, Character newCharacter) {
+        Boolean hasSameName = P1.stream().filter(person -> person.name == newCharacter.name).isParallel();
+        if(hasSameName) newCharacter.name = newCharacter.name + "Jr" ;
     }
 }
