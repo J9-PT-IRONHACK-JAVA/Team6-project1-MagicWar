@@ -24,8 +24,8 @@ public class Main {
 
         // assign party name?
         var P1 = new ArrayList<Character>();
-        String[] warriorNameList = {"Arne"};
-        String[] wizardNameList = {"Leilani"};
+        String[] warriorNameList = {"Arne", "Birger", "Bjørn", "Bo", "Erik", "Frode", "Gorm", "Halfdan", "Rashmi", "Zhenya"};
+        String[] wizardNameList = {"Leilani", "Mpho", "Rupinder", "Vinnie", "Zhihao", "Padma", "Inyene", "Ime", "Suman", "Tayler"};
         Random rand = new Random();
         int numOfPlayerInParty = rand.nextInt(10-5)+5;
         int idWar = 0;
