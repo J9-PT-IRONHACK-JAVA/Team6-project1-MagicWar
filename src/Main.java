@@ -6,20 +6,40 @@ import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("Welcome to Magic War!\nSelect an option to play, and press enter:");
+        var mainMenu = """                                
+                1- Random battle
+                2- Pick players to start a battle
+                3- Load a battle
+                4- Exit""";
+        boolean quitsGame = true;
 
-        System.out.println("MagicWars");
-        var party1 = createPartyRandom();
-        System.out.println(party1);
-        System.out.println(party1.size());
-        var party2 = createPartyRandom();
-        System.out.println(party2);
-        System.out.println(party2.size());
+        do {
+            System.out.println(mainMenu);
+            Scanner lector = new Scanner(System.in);
+            var pickedOption = lector.nextInt();
+            switch (pickedOption) {
+                case 1:
+                    System.out.println("Random battle begins!");
+                    randomWar();
+                    break;
+                case 2:
+                    System.out.println("This option is not implemented yet, please pick other option:");
+                    break;
+                case 3:
+                    System.out.println("This option is not implemented yet, please pick other option");
+                    break;
+                case 4:
+                    System.out.println("\nSee you next time!");
+                    quitsGame = false;
+            }
+        }while (quitsGame) ;
 
-        System.out.println(party1.get(3).getClass());
-
-        Battle.executeRandomBattle(party1, party2);
 
     }
+
+
+
     public static ArrayList<Character> createPartyRandom() {
 
         // assign party name?
@@ -62,5 +82,17 @@ public class Main {
     private static void addJrToName(ArrayList<Character> party, Character newCharacter) {
         Boolean nameExists = party.stream().map(Character::getName).anyMatch(newCharacter.name::equals);
         if(nameExists) newCharacter.name = newCharacter.name + " Jr" ;
+
+    private static void randomWar() {
+        System.out.println("MagicWars");
+        var party1 = createPartyRandom();
+        System.out.println(party1);
+        System.out.println(party1.size());
+        var party2 = createPartyRandom();
+        System.out.println(party2);
+        System.out.println(party2.size());
+        System.out.println(party1.get(3).getClass());
+        Battle.executeRandomBattle(party1, party2);
+        System.out.println("\nSomebody wins!!!!\nCongrats to somebody!!\n\nChoose another option:");
     }
 }
