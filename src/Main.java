@@ -33,11 +33,10 @@ public class Main {
                     System.out.println("\nSee you next time!");
                     quitsGame = false;
             }
-        }while (quitsGame) ;
+        } while (quitsGame);
 
 
     }
-
 
 
     public static ArrayList<Character> createPartyRandom() {
@@ -47,7 +46,7 @@ public class Main {
         String[] warriorNameList = {"Arne", "Birger", "Bjørn", "Bo", "Erik", "Frode", "Gorm", "Halfdan", "Rashmi", "Zhenya"};
         String[] wizardNameList = {"Leilani", "Mpho", "Rupinder", "Vinnie", "Zhihao", "Padma", "Inyene", "Ime", "Suman", "Tayler"};
         Random rand = new Random();
-        int numOfPlayerInParty = rand.nextInt(10-5)+5;
+        int numOfPlayerInParty = rand.nextInt(10 - 5) + 5;
         int idWar = 0;
         int idWiz = 0;
         for (int i = 0; i < numOfPlayerInParty; i++) {
@@ -55,7 +54,7 @@ public class Main {
             int typeOfPlayer = rand.nextInt(2); // 0= Warrior, 1=Wizard
             if (typeOfPlayer == 0) {
                 int index = rand.nextInt(warriorNameList.length);
-                int randHp = rand.nextInt(201-100)+100;
+                int randHp = rand.nextInt(201 - 100) + 100;
                 int randStamina = rand.nextInt(51);
                 int randStrength = rand.nextInt(11);
                 var newWarrior = new Warrior(++idWar, warriorNameList[index], randHp, randStamina, randStrength);
@@ -66,7 +65,7 @@ public class Main {
 
             } else {
                 int index = rand.nextInt(wizardNameList.length);
-                int randHp = rand.nextInt(101-50)+50;
+                int randHp = rand.nextInt(101 - 50) + 50;
                 int randMana = rand.nextInt(51);
                 int randIntelligence = rand.nextInt(51);
                 var newWizard = new Wizard(++idWiz, wizardNameList[index], randHp, randMana, randIntelligence);
@@ -81,7 +80,9 @@ public class Main {
 
     private static void addJrToName(ArrayList<Character> party, Character newCharacter) {
         Boolean nameExists = party.stream().map(Character::getName).anyMatch(newCharacter.name::equals);
-        if(nameExists) newCharacter.name = newCharacter.name + " Jr" ;
+        if (nameExists) newCharacter.name = newCharacter.name + " Jr";
+
+    }
 
     private static void randomWar() {
         System.out.println("MagicWars");
