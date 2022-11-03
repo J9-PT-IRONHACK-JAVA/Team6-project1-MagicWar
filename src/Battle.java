@@ -9,7 +9,6 @@ public class Battle {
         Random rand = new Random();
 
         do {
-
             var selectedCharacterParty1 = party1.get(rand.nextInt(party1.size()));
             var selectedCharacterParty2 = party2.get(rand.nextInt(party2.size()));
 
@@ -22,10 +21,24 @@ public class Battle {
 
         } while (party1.size() > 0 && party2.size() > 0);
 
-        //TODO show winning party and Graveyard
+        //Show winning party and Graveyard
+        if (party1.size() > 0) {
+            System.out.println("Team 1 has won");
+        } else {
+            System.out.println("Team 2 has won");
+        }
+
+        System.out.println("Count your dead both teams: " + getDeadNames(graveyard));
 
     }
 
+    private static ArrayList<Character> getDeadNames(ArrayList<Character> graveyard){
+        ArrayList deadNameList = new ArrayList<Character>();
+        for (int i = 0; i < graveyard.size(); i++){
+            deadNameList.add(graveyard.get(i).getName());
+        }
+        return deadNameList;
+    }
 
     private static void executeDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
         do {
