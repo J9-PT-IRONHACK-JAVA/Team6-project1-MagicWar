@@ -59,8 +59,8 @@ public class Main {
         return P1;
     }
 
-    private static void addJrToName(ArrayList<Character> P1, Character newCharacter) {
-        Boolean nameExists = P1.stream().map(Character::getName).anyMatch(newCharacter.name::equals);
+    private static void addJrToName(ArrayList<Character> party, Character newCharacter) {
+        Boolean nameExists = party.stream().map(Character::getName).anyMatch(newCharacter.name::equals);
         if(nameExists) newCharacter.name = newCharacter.name + " Jr" ;
     }
 }
