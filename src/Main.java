@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Stream;
 
 public class Main {
     public static void main(String[] args) {
@@ -23,8 +24,8 @@ public class Main {
 
         // assign party name?
         var P1 = new ArrayList<Character>();
-        String[] warriorNameList = {"Arne", "Birger", "Bjørn", "Bo", "Erik", "Frode", "Gorm", "Halfdan", "Rashmi", "Zhenya"};
-        String[] wizardNameList = {"Leilani", "Mpho", "Rupinder", "Vinnie", "Zhihao", "Padma", "Inyene", "Ime", "Suman", "Tayler"};
+        String[] warriorNameList = {"Arne"};
+        String[] wizardNameList = {"Leilani"};
         Random rand = new Random();
         int numOfPlayerInParty = rand.nextInt(10-5)+5;
         int idWar = 0;
@@ -59,7 +60,7 @@ public class Main {
     }
 
     private static void addJrToName(ArrayList<Character> P1, Character newCharacter) {
-        Boolean hasSameName = P1.stream().filter(person -> person.name == newCharacter.name).isParallel();
-        if(hasSameName) newCharacter.name = newCharacter.name + "Jr" ;
+        Boolean nameExists = P1.stream().map(Character::getName).anyMatch(newCharacter.name::equals);
+        if(nameExists) newCharacter.name = newCharacter.name + " Jr" ;
     }
 }
