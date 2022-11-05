@@ -14,6 +14,7 @@ public class Main {
                 4- Exit""";
         boolean quitsGame = true;
 
+
         do {
             System.out.println(mainMenu);
             Scanner lector = new Scanner(System.in);
@@ -34,8 +35,21 @@ public class Main {
                     quitsGame = false;
             }
         } while (quitsGame);
+        
+  }
 
+    private static void fullRandomGame() {
+        System.out.println("MagicWars");
+        var party1 = createPartyRandom();
+        System.out.println(party1);
+        System.out.println(party1.size());
+        var party2 = createPartyRandom();
+        System.out.println(party2);
+        System.out.println(party2.size());
 
+        System.out.println(party1.get(3).getClass());
+
+        Battle.executeRandomBattle(party1, party2);
     }
 
 
