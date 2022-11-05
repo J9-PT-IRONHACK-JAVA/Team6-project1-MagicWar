@@ -6,6 +6,16 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        //fullRandomGame();
+
+        var P1 = new Party();
+
+        P1.createManualParty();
+
+
+    }
+
+    private static void fullRandomGame() {
         System.out.println("MagicWars");
         var party1 = createPartyRandom();
         System.out.println(party1);
@@ -17,8 +27,8 @@ public class Main {
         System.out.println(party1.get(3).getClass());
 
         Battle.executeRandomBattle(party1, party2);
-
     }
+
     public static ArrayList<Character> createPartyRandom() {
 
         // assign party name?

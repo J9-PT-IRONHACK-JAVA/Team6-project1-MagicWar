@@ -10,6 +10,9 @@ public class Wizard extends Character {
         setAlive(true);
     }
 
+    public Wizard() {
+    }
+
     public int getMana() {
         return mana;
     }

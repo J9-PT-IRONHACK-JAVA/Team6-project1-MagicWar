@@ -11,6 +11,9 @@ public abstract class Character implements Attacker{
         this.isAlive = true;
     }
 
+    public Character() {
+    }
+
     public boolean receiveDamage(int damage) {
         if(hp > damage){
             hp -= damage;

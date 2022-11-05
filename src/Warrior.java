@@ -1,4 +1,6 @@
 public class Warrior extends Character {
+    public Warrior() {
+    }
     public Warrior(int id, String name, int hp, int stamina, int strength) {
         super(id, name, hp);
         setHp(hp);
@@ -6,6 +8,9 @@ public class Warrior extends Character {
         setStrength(strength);
         setAlive(true);
     }
+
+
+
     private int stamina;
     private int strength;
 
