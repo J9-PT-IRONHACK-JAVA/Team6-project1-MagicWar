@@ -3,6 +3,19 @@ import java.util.Random;
 
 public class Battle {
 
+    public static void randomWar() {
+        System.out.println("MagicWars");
+        var party1 = Party.createPartyRandom();
+        System.out.println(party1);
+        System.out.println(party1.size());
+        var party2 = Party.createPartyRandom();
+        System.out.println(party2);
+        System.out.println(party2.size());
+        System.out.println(party1.get(3).getClass());
+        executeRandomBattle(party1, party2);
+        System.out.println("\nSomebody wins!!!!\nCongrats to somebody!!\n\nChoose another option:");
+    }
+
     public static void executeRandomBattle (ArrayList<Character> party1, ArrayList<Character> party2) {
 
         var graveyard = new ArrayList<Character>();
