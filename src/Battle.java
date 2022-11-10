@@ -55,11 +55,13 @@ public class Battle {
 
     public static void executeDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
         do {
-            System.out.print(selectedCharacterParty1.getName() + ": "+ selectedCharacterParty1.getHp() + " ");
-            System.out.println(selectedCharacterParty2.getName() + ": "+ selectedCharacterParty2.getHp());
+
 
             selectedCharacterParty1.receiveDamage(selectedCharacterParty2.attack());
             selectedCharacterParty2.receiveDamage(selectedCharacterParty1.attack());
+
+            System.out.print(selectedCharacterParty1.getName() + ": "+ selectedCharacterParty1.getHp() + " ");
+            System.out.println(selectedCharacterParty2.getName() + ": "+ selectedCharacterParty2.getHp());
 
         } while (selectedCharacterParty1.isAlive() && selectedCharacterParty2.isAlive());
 
@@ -81,15 +83,23 @@ public class Battle {
     public static Character pickPlayer(ArrayList<Character> party1) {
         Scanner scanner = new Scanner(System.in);
         String input= null;
+        Character selectedPlayer= null;
         for (int i = 0; i < party1.size(); i++) {
             System.out.println(i + " - Name:" + party1.get(i).name + " Health points:" + party1.get(i).hp + " " );
             input = scanner.nextLine().trim().toLowerCase();
         }
         if(isNumeric(input)){
             int parsedInput=Integer.parseInt(input);
-            return party1.get(parsedInput);
+            selectedPlayer =party1.get(parsedInput);
+            selectedPlayer.setAlive(true);
         }
-        return null;
+        if (selectedPlayer != null) {
+            System.out.println(selectedPlayer);
+        } else {
+            System.out.println("You haven't selected a player");
+        }
+
+        return selectedPlayer;
     }
     public static boolean isNumeric(String str) {
         if(str !=null){
