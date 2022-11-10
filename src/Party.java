@@ -1,19 +1,25 @@
 import java.util.*;
 
 public class Party {
-    protected ArrayList<Character> currentParty = new ArrayList<Character>();
-    private Character selectedCharacter;
-    private final Scanner scanner = new Scanner(System.in);
+
+    private int id;
+    private ArrayList<Character> charactersInParty = new ArrayList<Character>();
 
     public Party() {
-
     }
 
+    public Party(int id) {
+        this.id = id;
+    }
+
+    public Party(int id, ArrayList<Character> charactersInParty) {
+        this.id = id;
+        this.charactersInParty = charactersInParty;
+    }
 
     public static ArrayList<Character> createPartyRandom() {
 
-        // assign party name?
-        var P1 = new ArrayList<Character>();
+        var randomParty = new ArrayList<Character>();
         String[] warriorNameList = {"Arne", "Birger", "Bjørn", "Bo", "Erik", "Frode", "Gorm", "Halfdan", "Rashmi", "Zhenya"};
         String[] wizardNameList = {"Leilani", "Mpho", "Rupinder", "Vinnie", "Zhihao", "Padma", "Inyene", "Ime", "Suman", "Tayler"};
         Random rand = new Random();
@@ -31,8 +37,8 @@ public class Party {
                 var newWarrior = new Warrior(++idWar, warriorNameList[index], randHp, randStamina, randStrength);
 
                 // If the name already exists add Jr.
-                addJrToName(P1, newWarrior);
-                P1.add(newWarrior);
+                addJrToName(randomParty, newWarrior);
+                randomParty.add(newWarrior);
 
             } else {
                 int index = rand.nextInt(wizardNameList.length);
@@ -41,12 +47,12 @@ public class Party {
                 int randIntelligence = rand.nextInt(51);
                 var newWizard = new Wizard(++idWiz, wizardNameList[index], randHp, randMana, randIntelligence);
                 // If the name already exists add Jr.
-                addJrToName(P1, newWizard);
-                P1.add(newWizard);
+                addJrToName(randomParty, newWizard);
+                randomParty.add(newWizard);
             }
 
         }
-        return P1;
+        return randomParty;
     }
 
     private static void addJrToName(ArrayList<Character> party, Character newCharacter) {
@@ -70,11 +76,12 @@ public class Party {
                      Your current party has %s players
                      Which character you want to create next?
                                          
-                     1) WARRIOR
-                     2) WIZARD
-                                               
-                     3) Done - party creation completed
-                     4) Cancel - abort and go to previous Menu
+                     1- WARRIOR
+                     2- WIZARD
+                              
+                     3- DONE - party creation completed
+                     4- CANCEL - abort and go to previous Menu
+
                      ===============
                      Write your COMMAND:
                      """.formatted(currentParty.size());
@@ -85,14 +92,12 @@ public class Party {
                  case "1" -> currentParty.add(createWarriorManual());
                  case "2" -> currentParty.add(createWizardManual());
                  case "3" -> {
-                     if (currentParty.isEmpty()) {
-                         printWithColor("Party is empty! Create at least one character or write CANCEL to abort\n", ConsoleColors.RED);
-                     }
+                     if (currentParty.isEmpty()) Menu.printWithColor("Party is empty! Create at least one character or write CANCEL to abort\n", ConsoleColors.RED);
                      else input = "4";
-                     System.out.println(currentParty);
                  }
                  case "4" -> currentParty.clear();
-                 default -> printWithColor("Command not recognized!", ConsoleColors.RED);
+                 default -> Menu.printWithColor("Invalid option. Please select a number from the menu\n", ConsoleColors.RED);
+
              }
          } while (!input.equals("4"));
         return currentParty;
@@ -155,7 +160,7 @@ public class Party {
                 propertyValueChosen = Integer.parseInt(input);
             } else {
                 do {
-                    printWithColor("Error\nInvalid input, must be a number", ConsoleColors.RED);
+                    Menu.printWithColor("Error\nInvalid input, it must be a number", ConsoleColors.RED);
                     input = scanner.nextLine().trim().toLowerCase();
                 } while (!input.matches("^\\d+$"));
                 propertyValueChosen = Integer.parseInt(input);
@@ -163,32 +168,22 @@ public class Party {
             //scanner.close();
             return propertyValueChosen;
          }
-         public static void printWithColor(String text, String color){
-             System.out.println(color + text + ConsoleColors.RESET);
-         }
 
+    public int getId() {
+        return id;
 
-         //var manualParty = new ArrayList<Character>();
-         //var newWarrior = new Warrior(++idWar, warriorName, randHp, randStamina, randStrength);
-         //P1.add(newWarrior);
-         //var newWizard = new Wizard(++idWiz, wizardNameList, randHp, randMana, randIntelligence);
-         //P1.add(newWizard);
-
-
-    public Party(ArrayList<Character> characterArraylist) {
-        this.currentParty = characterArraylist;
     }
 
-    public ArrayList<Character> getCurrentParty() {
-        return currentParty;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setCurrentParty(ArrayList<Character> currentParty) {
-        this.currentParty = currentParty;
-    }
-    public void setRandomCharacterArraylist(ArrayList<Character> characterArraylist) {
-        this.currentParty = characterArraylist;
+    public ArrayList<Character> getCharactersInParty() {
+        return charactersInParty;
     }
 
+    public void setCharactersInParty(ArrayList<Character> charactersInParty) {
+        this.charactersInParty = charactersInParty;
+    }
 
 }
