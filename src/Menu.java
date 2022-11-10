@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Menu {
@@ -93,7 +94,7 @@ public class Menu {
                         System.out.println(battleMenu);
                         pickedOption = lector.nextInt();
                         switch (pickedOption) {
-                            case 1 -> System.out.println("arcade\n" + party1 + "\n" + party2); //TODO call semi automatic battle method
+                            case 1 -> Battle.executeArcadeBattle(party1, party2);
                             case 2 -> System.out.println("VS."); //TODO call semi automatic battle method
                             case 3 -> System.out.println("OK"); //TODO how to return without anything?
                             default -> System.out.println("Select a valid option");

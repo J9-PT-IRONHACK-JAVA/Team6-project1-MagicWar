@@ -3,6 +3,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Battle {
+    static Random rand = new Random();
 
     //@TODO For Push merge: Adjusted the randomWar method and some others, to correct some legacy
 
@@ -11,18 +12,15 @@ public class Battle {
         System.out.println("Party 1:" + party1.getCharactersInParty().size() + " Characters\n" + party1.getCharactersInParty());
         if (party2.getCharactersInParty().isEmpty()) party2.setCharactersInParty(Party.createPartyRandom());
         System.out.println("Party 2:" + party2.getCharactersInParty().size() + " Characters\n" + party2.getCharactersInParty());
-        executeRandomBattle(party1.getCharactersInParty(), party2.getCharactersInParty());
+        executeRandomBattle(party1, party2);
 
     }
 
-    public static void executeRandomBattle (ArrayList<Character> party1, ArrayList<Character> party2) {
-
+    public static void executeRandomBattle (Party party1, Party party2) {
         var graveyard = new ArrayList<Character>();
-        Random rand = new Random();
-
         do {
-            var selectedCharacterParty1 = party1.get(rand.nextInt(party1.size()));
-            var selectedCharacterParty2 = party2.get(rand.nextInt(party2.size()));
+            var selectedCharacterParty1 = party1.getCharactersInParty().get(rand.nextInt(party1.getCharactersInParty().size()));
+            var selectedCharacterParty2 = party2.getCharactersInParty().get(rand.nextInt(party2.getCharactersInParty().size()));
 
             // TODO improve presentation of characters to play
             System.out.print(selectedCharacterParty1 + " ");
@@ -32,18 +30,46 @@ public class Battle {
             executeDuel(selectedCharacterParty1, selectedCharacterParty2);
             sendToGraveyard(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
 
-        } while (party1.size() > 0 && party2.size() > 0);
+        } while (!party1.getCharactersInParty().isEmpty() && !party2.getCharactersInParty().isEmpty());
 
+        announceBattleOutcome(party1, graveyard);
+    }
+
+    private static void announceBattleOutcome(Party party1, ArrayList<Character> graveyard) {
         //Show winning party and Graveyard
-        if (party1.size() > 0) {
+        if (!party1.getCharactersInParty().isEmpty()) {
             Menu.printWithColor("Party 1 has won", ConsoleColors.GREEN_BOLD);
         } else {
             Menu.printWithColor("Party 2 has won", ConsoleColors.GREEN_BOLD);
         }
 
         Menu.printWithColor("Count your dead both teams: " + getDeadNames(graveyard), ConsoleColors.PURPLE);
+    }
+
+    public static void executeArcadeBattle (Party party1, Party party2) {
+
+        var graveyard = new ArrayList<Character>();
+        Random rand = new Random();
+
+        do {
+            var selectedCharacterParty1 = pickPlayer(party1);
+            var selectedCharacterParty2 = party2.getCharactersInParty().get(rand.nextInt(party2.getCharactersInParty().size()));
+
+            // TODO improve presentation of characters to play
+            System.out.print(selectedCharacterParty1 + " ");
+            System.out.println(selectedCharacterParty2);
+
+            //Duel
+            executeDuel(selectedCharacterParty1, selectedCharacterParty2);
+            sendToGraveyard(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
+
+        } while (!party1.getCharactersInParty().isEmpty() && !party2.getCharactersInParty().isEmpty());
+
+        announceBattleOutcome(party1, graveyard);
 
     }
+
+
 
     private static ArrayList<String> getDeadNames(ArrayList<Character> graveyard){
         var deadNameList = new ArrayList<String>();
@@ -53,11 +79,10 @@ public class Battle {
         return deadNameList;
     }
 
-    private static void executeDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
+    static void executeDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
         do { //TODO improve presentation of battle. Is it possible that the HP position is static and overwritten? Maybe display the attacks happening with a time-delay?
             System.out.print(selectedCharacterParty1.getName() + ": "+ selectedCharacterParty1.getHp() + " ");
             System.out.println(selectedCharacterParty2.getName() + ": "+ selectedCharacterParty2.getHp());
-
 
             selectedCharacterParty1.receiveDamage(selectedCharacterParty2.attack());
             selectedCharacterParty2.receiveDamage(selectedCharacterParty1.attack());
@@ -65,39 +90,39 @@ public class Battle {
             System.out.print(selectedCharacterParty1.getName() + ": "+ selectedCharacterParty1.getHp() + " ");
             System.out.println(selectedCharacterParty2.getName() + ": "+ selectedCharacterParty2.getHp());
 
-        //TODO improve display of result of battle
-        System.out.print(selectedCharacterParty1.getName() + ": " + selectedCharacterParty1.isAlive() + " ");
-        System.out.println(selectedCharacterParty2.getName() + ": " + selectedCharacterParty2.isAlive());
+
         } while (selectedCharacterParty1.isAlive() && selectedCharacterParty2.isAlive());
 
+        //TODO improve display of result of battle
         System.out.println(selectedCharacterParty1.getName() + ": is Alive-> " + selectedCharacterParty1.isAlive() + " " + ", Health points-> " + selectedCharacterParty1.getHp());
         System.out.println(selectedCharacterParty2.getName() + ": is Alive-> " + selectedCharacterParty2.isAlive()  + ", Health points-> " + selectedCharacterParty2.getHp() );
     }
 
-    private static void sendToGraveyard(ArrayList<Character> party1, ArrayList<Character> party2, ArrayList<Character> graveyard, Character selectedCharacterParty1, Character selectedCharacterParty2) {
+    private static void sendToGraveyard(Party party1, Party party2, ArrayList<Character> graveyard, Character selectedCharacterParty1, Character selectedCharacterParty2) {
         if (!selectedCharacterParty1.isAlive()) {
             graveyard.add(selectedCharacterParty1);
-            party1.remove(selectedCharacterParty1);
+            party1.getCharactersInParty().remove(selectedCharacterParty1);
         }
         if (!selectedCharacterParty2.isAlive()) {
             graveyard.add(selectedCharacterParty2);
-            party2.remove(selectedCharacterParty2);
+            party2.getCharactersInParty().remove(selectedCharacterParty2);
         }
     }
 
 
-    public static Character pickPlayer(ArrayList<Character> party1) {
+    public static Character pickPlayer(Party party1) {
         Scanner scanner = new Scanner(System.in);
         String input= null;
         Character selectedPlayer= null;
-        for (int i = 0; i < party1.size(); i++) {
-            System.out.println(i + " - Name:" + party1.get(i).name + " Health points:" + party1.get(i).hp + " " );
-            input = scanner.nextLine().trim().toLowerCase();
+        for (int i = 0; i < party1.getCharactersInParty().size(); i++) {
+            System.out.println(i + " - Name:" + party1.getCharactersInParty().get(i).name + " Health points:" + party1.getCharactersInParty().get(i).hp + " " );
+
         }
+        input = scanner.nextLine().trim().toLowerCase();
+
         if(isNumeric(input)){
             int parsedInput=Integer.parseInt(input);
-            selectedPlayer =party1.get(parsedInput);
-            selectedPlayer.setAlive(true);
+            selectedPlayer =party1.getCharactersInParty().get(parsedInput);
         }
         if (selectedPlayer != null) {
             System.out.println(selectedPlayer);
