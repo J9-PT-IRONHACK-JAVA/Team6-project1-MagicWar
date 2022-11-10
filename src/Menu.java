@@ -7,6 +7,17 @@ public class Menu {
     public static void mainMenu(Party party1, Party party2) {
 
         printWithColor("*** Welcome to MAGIC WAR! ***", ConsoleColors.BLACK_BACKGROUND);
+        var logo = """
+                                
+                █▀▄▀█ ██     ▄▀  ▄█ ▄█▄          ▄ ▄   ██   █▄▄▄▄\s
+                █ █ █ █ █  ▄▀    ██ █▀ ▀▄       █   █  █ █  █  ▄▀\s
+                █ ▄ █ █▄▄█ █ ▀▄  ██ █   ▀      █ ▄   █ █▄▄█ █▀▀▌ \s
+                █   █ █  █ █   █ ▐█ █▄  ▄▀     █  █  █ █  █ █  █ \s
+                   █     █  ███   ▐ ▀███▀       █ █ █     █   █  \s
+                  ▀     █                        ▀ ▀     █   ▀   \s
+                       ▀                                ▀        \s
+                                
+                """;
         var mainMenu = """  
                 \nSelect an option to play:
                 =================================
@@ -21,6 +32,7 @@ public class Menu {
         boolean quitsGame = false;
 
         do {
+            printWithColor(logo, ConsoleColors.CYAN);
             System.out.println(mainMenu);
             Scanner lector = new Scanner(System.in);
             var pickedOption = lector.nextInt();
