@@ -5,15 +5,12 @@ import java.util.Scanner;
 public class Battle {
     static Random rand = new Random();
 
-    //@TODO For Push merge: Adjusted the randomWar method and some others, to correct some legacy
-
     public static void randomWar(Party party1, Party party2) {
         if (party1.getCharactersInParty().isEmpty()) party1.setCharactersInParty(Party.createPartyRandom());
         System.out.println("Party 1:" + party1.getCharactersInParty().size() + " Characters\n" + party1.getCharactersInParty());
         if (party2.getCharactersInParty().isEmpty()) party2.setCharactersInParty(Party.createPartyRandom());
         System.out.println("Party 2:" + party2.getCharactersInParty().size() + " Characters\n" + party2.getCharactersInParty());
         executeRandomBattle(party1, party2);
-
     }
 
     public static void executeRandomBattle (Party party1, Party party2) {
@@ -22,17 +19,53 @@ public class Battle {
             var selectedCharacterParty1 = party1.getCharactersInParty().get(rand.nextInt(party1.getCharactersInParty().size()));
             var selectedCharacterParty2 = party2.getCharactersInParty().get(rand.nextInt(party2.getCharactersInParty().size()));
 
-            // TODO improve presentation of characters to play
-            System.out.print(selectedCharacterParty1 + " ");
-            System.out.println(selectedCharacterParty2);
-
-            //Duel
-            executeDuel(selectedCharacterParty1, selectedCharacterParty2);
-            sendToGraveyard(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
+            announceDuel(selectedCharacterParty1, selectedCharacterParty2);
+            executeDuelAndBury(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
 
         } while (!party1.getCharactersInParty().isEmpty() && !party2.getCharactersInParty().isEmpty());
 
         announceBattleOutcome(party1, graveyard);
+    }
+
+
+    public static void executeArcadeBattle (Party party1, Party party2) {
+
+        var graveyard = new ArrayList<Character>();
+        Random rand = new Random();
+
+        do {
+            var selectedCharacterParty1 = pickPlayer(party1);
+            var selectedCharacterParty2 = party2.getCharactersInParty().get(rand.nextInt(party2.getCharactersInParty().size()));
+
+            announceDuel(selectedCharacterParty1, selectedCharacterParty2);
+            executeDuelAndBury(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
+
+
+        } while (!party1.getCharactersInParty().isEmpty() && !party2.getCharactersInParty().isEmpty());
+
+        announceBattleOutcome(party1, graveyard);
+
+    }
+
+    public static void executeVSBattle (Party party1, Party party2) {
+        var graveyard = new ArrayList<Character>();
+        Random rand = new Random();
+        do {
+            var selectedCharacterParty1 = pickPlayer(party1);
+            var selectedCharacterParty2 = pickPlayer(party2);
+
+            announceDuel(selectedCharacterParty1, selectedCharacterParty2);
+            executeDuelAndBury(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
+
+        } while (!party1.getCharactersInParty().isEmpty() && !party2.getCharactersInParty().isEmpty());
+
+        announceBattleOutcome(party1, graveyard);
+
+    }
+    private static void announceDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
+        // TODO improve presentation of characters to play
+        System.out.print(selectedCharacterParty1 + " ");
+        System.out.println(selectedCharacterParty2);
     }
 
     private static void announceBattleOutcome(Party party1, ArrayList<Character> graveyard) {
@@ -46,29 +79,11 @@ public class Battle {
         Menu.printWithColor("Count your dead both teams: " + getDeadNames(graveyard), ConsoleColors.PURPLE);
     }
 
-    public static void executeArcadeBattle (Party party1, Party party2) {
-
-        var graveyard = new ArrayList<Character>();
-        Random rand = new Random();
-
-        do {
-            var selectedCharacterParty1 = pickPlayer(party1);
-            var selectedCharacterParty2 = party2.getCharactersInParty().get(rand.nextInt(party2.getCharactersInParty().size()));
-
-            // TODO improve presentation of characters to play
-            System.out.print(selectedCharacterParty1 + " ");
-            System.out.println(selectedCharacterParty2);
-
-            //Duel
-            executeDuel(selectedCharacterParty1, selectedCharacterParty2);
-            sendToGraveyard(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
-
-        } while (!party1.getCharactersInParty().isEmpty() && !party2.getCharactersInParty().isEmpty());
-
-        announceBattleOutcome(party1, graveyard);
-
+    private static void executeDuelAndBury(Party party1, Party party2, ArrayList<Character> graveyard, Character selectedCharacterParty1, Character selectedCharacterParty2) {
+        //Duel
+        executeDuel(selectedCharacterParty1, selectedCharacterParty2);
+        sendToGraveyard(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
     }
-
 
 
     private static ArrayList<String> getDeadNames(ArrayList<Character> graveyard){

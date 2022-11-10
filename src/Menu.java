@@ -95,7 +95,7 @@ public class Menu {
                         pickedOption = lector.nextInt();
                         switch (pickedOption) {
                             case 1 -> Battle.executeArcadeBattle(party1, party2);
-                            case 2 -> System.out.println("VS."); //TODO call semi automatic battle method
+                            case 2 -> Battle.executeVSBattle(party1, party2);
                             case 3 -> System.out.println("OK"); //TODO how to return without anything?
                             default -> System.out.println("Select a valid option");
                         }
