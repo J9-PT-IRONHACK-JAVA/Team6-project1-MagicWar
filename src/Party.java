@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Party {
 
@@ -83,6 +81,7 @@ public class Party {
                               
                      3- DONE - party creation completed
                      4- CANCEL - abort and go to previous Menu
+
                      ===============
                      Write your COMMAND:
                      """.formatted(currentParty.size());
@@ -98,14 +97,13 @@ public class Party {
                  }
                  case "4" -> currentParty.clear();
                  default -> Menu.printWithColor("Invalid option. Please select a number from the menu\n", ConsoleColors.RED);
+
              }
          } while (!input.equals("4"));
         return currentParty;
      }
 
-
-
-         public static Warrior createWarriorManual() {
+     public static Warrior createWarriorManual() {
              String input;
              Scanner scanner = new Scanner(System.in);
              var newCurrentWarrior = new Warrior();
@@ -155,7 +153,7 @@ public class Party {
         return newCurrentWizard;
     }
 
-         private static int processPropertyInput(String input) {
+    private static int processPropertyInput(String input) {
             int propertyValueChosen = 0;
              Scanner scanner = new Scanner(System.in);
             if (input.matches("^\\d+$")) {
@@ -173,6 +171,7 @@ public class Party {
 
     public int getId() {
         return id;
+
     }
 
     public void setId(int id) {
@@ -186,6 +185,5 @@ public class Party {
     public void setCharactersInParty(ArrayList<Character> charactersInParty) {
         this.charactersInParty = charactersInParty;
     }
-
 
 }
