@@ -17,19 +17,20 @@ public class Main {
                 3- Load a battle
                 4- Exit""";
         boolean quitsGame = true;
-
+        Scanner lector = new Scanner(System.in);
 
         do {
             System.out.println(mainMenu);
-            Scanner lector = new Scanner(System.in);
             var pickedOption = lector.nextInt();
+            boolean hasTwoParties = false;
+            Random rand = new Random();
+
             switch (pickedOption) {
                 case 1:
                     System.out.println("Random battle begins!");
                     Battle.randomWar();
                     break;
                 case 2:
-                    boolean hasTwoParties = false;
                     do {
                         if (!party1.isEmpty() && !party2.isEmpty()) hasTwoParties = true;
                         var partyCreationMenu = """                                
@@ -63,15 +64,19 @@ public class Main {
                     } while (!hasTwoParties);
                     break;
                 case 3:
-                    System.out.println("This option is not implemented yet, please pick other option");
+                    Character opponentFirst = Battle.pickPlayer(party1);
+                    if(opponentFirst != null) {
+                        ArrayList<Character> partySecond = Party.createPartyRandom();
+                        Character opponentSecond = partySecond.get(rand.nextInt(party1.size()));
+                        Battle.executeDuel(opponentFirst, opponentSecond);
+                    } else Party.printWithColor("Please pick players first", ConsoleColors.BLUE);
                     break;
                 case 4:
                     System.out.println("\nSee you next time!");
                     quitsGame = false;
             }
         } while (quitsGame);
-        
-  }
-
+        lector.close();
+    }
 
 }

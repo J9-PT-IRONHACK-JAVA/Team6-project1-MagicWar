@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Party {
     protected ArrayList<Character> currentParty = new ArrayList<Character>();
@@ -75,8 +73,8 @@ public class Party {
                      1) WARRIOR
                      2) WIZARD
                                                
-                     DONE - party creation completed
-                     CANCEL - abort and go to previous Menu
+                     3) Done - party creation completed
+                     4) Cancel - abort and go to previous Menu
                      ===============
                      Write your COMMAND:
                      """.formatted(currentParty.size());
@@ -86,21 +84,21 @@ public class Party {
              switch (input) {
                  case "1" -> currentParty.add(createWarriorManual());
                  case "2" -> currentParty.add(createWizardManual());
-                 case "done" -> {
-                     if (currentParty.isEmpty()) printWithColor("Party is empty! Create at least one character or write CANCEL to abort\n", ConsoleColors.RED);
-                     else input = "cancel";
+                 case "3" -> {
+                     if (currentParty.isEmpty()) {
+                         printWithColor("Party is empty! Create at least one character or write CANCEL to abort\n", ConsoleColors.RED);
+                     }
+                     else input = "4";
+                     System.out.println(currentParty);
                  }
-                 case "cancel" -> currentParty.clear();
+                 case "4" -> currentParty.clear();
                  default -> printWithColor("Command not recognized!", ConsoleColors.RED);
              }
-         } while (!input.equals("cancel"));
-        scanner.close();
+         } while (!input.equals("4"));
         return currentParty;
      }
 
-
-
-         public static Warrior createWarriorManual() {
+     public static Warrior createWarriorManual() {
              String input;
              Scanner scanner = new Scanner(System.in);
              var newCurrentWarrior = new Warrior();
@@ -150,7 +148,7 @@ public class Party {
         return newCurrentWizard;
     }
 
-         private static int processPropertyInput(String input) {
+    private static int processPropertyInput(String input) {
             int propertyValueChosen = 0;
              Scanner scanner = new Scanner(System.in);
             if (input.matches("^\\d+$")) {
@@ -165,9 +163,6 @@ public class Party {
             //scanner.close();
             return propertyValueChosen;
          }
-
-
-
          public static void printWithColor(String text, String color){
              System.out.println(color + text + ConsoleColors.RESET);
          }
@@ -194,4 +189,6 @@ public class Party {
     public void setRandomCharacterArraylist(ArrayList<Character> characterArraylist) {
         this.currentParty = characterArraylist;
     }
+
+
 }

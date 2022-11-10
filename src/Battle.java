@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Battle {
 
@@ -13,7 +14,6 @@ public class Battle {
         System.out.println(party2.size());
         System.out.println(party1.get(3).getClass());
         executeRandomBattle(party1, party2);
-        System.out.println("\nSomebody wins!!!!\nCongrats to somebody!!\n\nChoose another option:");
     }
 
     public static void executeRandomBattle (ArrayList<Character> party1, ArrayList<Character> party2) {
@@ -53,7 +53,7 @@ public class Battle {
         return deadNameList;
     }
 
-    private static void executeDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
+    public static void executeDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
         do {
             System.out.print(selectedCharacterParty1.getName() + ": "+ selectedCharacterParty1.getHp() + " ");
             System.out.println(selectedCharacterParty2.getName() + ": "+ selectedCharacterParty2.getHp());
@@ -63,9 +63,8 @@ public class Battle {
 
         } while (selectedCharacterParty1.isAlive() && selectedCharacterParty2.isAlive());
 
-        System.out.print(selectedCharacterParty1.getName() + ": " + selectedCharacterParty1.isAlive() + " ");
-        System.out.println(selectedCharacterParty2.getName() + ": " + selectedCharacterParty2.isAlive());
-
+        System.out.println(selectedCharacterParty1.getName() + ": is Alive-> " + selectedCharacterParty1.isAlive() + " " + ", Health points-> " + selectedCharacterParty1.getHp());
+        System.out.println(selectedCharacterParty2.getName() + ": is Alive-> " + selectedCharacterParty2.isAlive()  + ", Health points-> " + selectedCharacterParty2.getHp() );
     }
 
     private static void sendToGraveyard(ArrayList<Character> party1, ArrayList<Character> party2, ArrayList<Character> graveyard, Character selectedCharacterParty1, Character selectedCharacterParty2) {
@@ -79,10 +78,24 @@ public class Battle {
         }
     }
 
-
-    //private static int getPlayerDamage(Character player) {
-    //    return player instanceof Warrior ? ((Warrior) player).attack() : ((Wizard) player).attack();
-    //}
+    public static Character pickPlayer(ArrayList<Character> party1) {
+        Scanner scanner = new Scanner(System.in);
+        String input= null;
+        for (int i = 0; i < party1.size(); i++) {
+            System.out.println(i + " - Name:" + party1.get(i).name + " Health points:" + party1.get(i).hp + " " );
+            input = scanner.nextLine().trim().toLowerCase();
+        }
+        if(isNumeric(input)){
+            int parsedInput=Integer.parseInt(input);
+            return party1.get(parsedInput);
+        }
+        return null;
+    }
+    public static boolean isNumeric(String str) {
+        if(str !=null){
+        return str.matches("-?\\d+(\\.\\d+)?");  }
+            else return false;
+    }
 
 
 }
