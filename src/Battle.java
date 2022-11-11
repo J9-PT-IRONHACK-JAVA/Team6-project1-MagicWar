@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Battle {
     static Random rand = new Random();
@@ -87,7 +88,7 @@ public class Battle {
                                              ░          ░ ░                         ░        \s
                                 
                 """, ConsoleColors.PURPLE);
-        Menu.printWithColor("Rest in peace " + getDeadNames(graveyard), ConsoleColors.PURPLE);
+        Menu.printWithColor("\u2620 Rest in peace " + getDeadNames(graveyard) + " \u2620", ConsoleColors.PURPLE);
     }
 
     private static void executeDuelAndBury(Party party1, Party party2, ArrayList<Character> graveyard, Character selectedCharacterParty1, Character selectedCharacterParty2) {
@@ -137,23 +138,24 @@ public class Battle {
 
 
     public static Character pickPlayer(Party party1) {
+        Scanner scanner = new Scanner(System.in);
         String input= null;
         Character selectedPlayer= null;
         for (int i = 0; i < party1.getCharactersInParty().size(); i++) {
             System.out.println(i + " - Name:" + party1.getCharactersInParty().get(i).name + " Health points:" + party1.getCharactersInParty().get(i).hp + " " );
 
         }
-        input = UtilsIO.DATA.nextLine().trim().toLowerCase();
+       // input = UtilsIO.DATA.nextLine().trim().toLowerCase();
+        input = scanner.nextLine().trim().toLowerCase();
 
         if(isNumeric(input)){
             int parsedInput=Integer.parseInt(input);
-            selectedPlayer =party1.getCharactersInParty().get(parsedInput);
-        }
-        if (selectedPlayer != null) {
-            System.out.println(selectedPlayer);
+            if(parsedInput <= party1.getCharactersInParty().size() &&  parsedInput > 0) selectedPlayer =  party1.getCharactersInParty().get(parsedInput);
         } else {
-            System.out.println("You haven't selected a player");
+            Menu.printWithColor("You have not inserted any of the options so we chose one for you. Be more careful next time \uD83D\uDE08", ConsoleColors.PURPLE);
+            selectedPlayer =  party1.getCharactersInParty().get(0);
         }
+            System.out.println(selectedPlayer);
 
         return selectedPlayer;
     }
