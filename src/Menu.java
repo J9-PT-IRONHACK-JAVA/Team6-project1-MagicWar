@@ -5,7 +5,7 @@ public class Menu {
 
     public static void mainMenu(Party party1, Party party2) {
 
-        printWithColor("*** Welcome to MAGIC WAR! ***", ConsoleColors.BLACK_BACKGROUND);
+        printWithColor(" \u2694 \uD83D\uDD2E  Welcome to MAGIC WAR! \u2694 \uD83D\uDD2E ", ConsoleColors.BLACK_BACKGROUND);
         var logo = """
                                 
                 █▀▄▀█ ██     ▄▀  ▄█ ▄█▄          ▄ ▄   ██   █▄▄▄▄\s
@@ -14,11 +14,10 @@ public class Menu {
                 █   █ █  █ █   █ ▐█ █▄  ▄▀     █  █  █ █  █ █  █ \s
                    █     █  ███   ▐ ▀███▀       █ █ █     █   █  \s
                   ▀     █                        ▀ ▀     █   ▀   \s
-                       ▀                                ▀        \s
-                                
+                       ▀                                ▀        \s           
                 """;
         var mainMenu = """  
-                \nSelect an option to play:
+                Select an option to play:
                 =================================
                 1- Create Parties of characters for the battle
                 2- Start a battle
@@ -31,7 +30,7 @@ public class Menu {
         boolean quitsGame = false;
 
         do {
-            printWithColor(logo, ConsoleColors.CYAN);
+            printWithColor(logo, ConsoleColors.PURPLE);
             System.out.println(mainMenu);
             var pickedOption = UtilsIO.DATA.nextInt();
             switch (pickedOption) {
@@ -123,7 +122,56 @@ public class Menu {
                     break;
 
                 case 3:
-                    printWithColor("This option is not implemented yet, please pick other option", ConsoleColors.CYAN);
+                    var instructions = """                                
+                              \u2694 \uD83D\uDD2E  War of Magic Instructions \u2694 \uD83D\uDD2E 
+                            
+                              Welcome to the land of fantasy!
+                              Where humble mighty warriors meet powerful wizards in 
+                              fateful battles.
+                              First step is creating the two parties of fighters. 
+                              They can be either warriors \u2694 or wizards \uD83D\uDD2E 
+                               
+                              ====================================
+                               
+                              OPTIONS
+                              All warriors have a name, health points,
+                              strength and stamina.
+                              All wizards have also a name and health point but also 
+                              intelligence and mana.
+                               
+                              Party creation options:
+                              -Random generated party
+                              -Manual creation
+                              -Load from a CSV file
+                               
+                              Then you can proceed to battle.
+                              These are the options:
+                              -Arcade --> Play against the computer
+                              -VS. (Manual Battle) --> Play with a friend and each one gets to choose his fighter
+                               
+                              ====================================
+                               
+                              RULES
+                              Warriors are strong well armored characters that focus on the attribute strength.
+                              Every round a warrior will try to do a “Heavy attack”. The damage of a heavy attack
+                              is equal to their strength and every hit will decrease their stamina by 5 points. 
+                              If he can’t make a heavy attack he will do a “Weak attack”. The damage of a weak attack 
+                              is the half of the strength (truncate decimals). Every weak attack will recover his stamina by 1.
+                                                          
+                              Wizards are the masters of the arcane their main attribute is intelligence.
+                              Every round a wizard will try to cast a “Fireball”. The damage of a fireball is equal
+                              to his intelligence and every fireball will decrease their mana by 5 points.
+                              If he can’t cast a fireball he will do a “Staff hit”. The damage of a staff hit is equals to 2.
+                              Every staff hit will recover his mana by 1.
+                                                          
+                              When the battle is over the winner will return to the party and the loser
+                              will be removed and sent to the graveyard. Then you can choose the combatants for the next duel.                         
+                              When a party lose all their members a winner party is declared.
+                              
+                              May the mightier win!                        
+                              ====================================
+                            """;
+                    printWithColor(instructions, ConsoleColors.BLACK_BACKGROUND);
                     break;
                 case 4:
                     System.out.println("Random battle begins!\n");
