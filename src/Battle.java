@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class Battle {
     static Random rand = new Random();
@@ -138,14 +137,13 @@ public class Battle {
 
 
     public static Character pickPlayer(Party party1) {
-        Scanner scanner = new Scanner(System.in);
         String input= null;
         Character selectedPlayer= null;
         for (int i = 0; i < party1.getCharactersInParty().size(); i++) {
             System.out.println(i + " - Name:" + party1.getCharactersInParty().get(i).name + " Health points:" + party1.getCharactersInParty().get(i).hp + " " );
 
         }
-        input = scanner.nextLine().trim().toLowerCase();
+        input = UtilsIO.DATA.nextLine().trim().toLowerCase();
 
         if(isNumeric(input)){
             int parsedInput=Integer.parseInt(input);
