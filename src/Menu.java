@@ -1,6 +1,5 @@
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Menu {
 
@@ -34,8 +33,7 @@ public class Menu {
         do {
             printWithColor(logo, ConsoleColors.CYAN);
             System.out.println(mainMenu);
-            Scanner lector = new Scanner(System.in);
-            var pickedOption = lector.nextInt();
+            var pickedOption = UtilsIO.DATA.nextInt();
             switch (pickedOption) {
                 case 1:
                     boolean hasTwoParties = false;
@@ -64,7 +62,7 @@ public class Menu {
                             pickedOption = 4;
                         } else {
                             System.out.println(partyCreationMenu);
-                            pickedOption = lector.nextInt();
+                            pickedOption = UtilsIO.DATA.nextInt();
                         }
                         switch (pickedOption) {
                             case 1 -> {
@@ -76,8 +74,18 @@ public class Menu {
                                 newParty = Party.createManualParty();
                                 if (party1.getCharactersInParty().isEmpty()) party1.setCharactersInParty(newParty);
                                 else party2.setCharactersInParty(newParty);
+                                System.out.println("Do you want to store this party?\n1- yes\n2- no");
+                                var option = UtilsIO.DATA.nextInt();
+                                if (option == 1) UtilsIO.writePartyToCsv(UtilsIO.getCsvFile(), newParty);
                             }
-                            case 3 -> printWithColor("Not implemented yet select another option", ConsoleColors.CYAN);
+                            case 3 -> {
+                                if (((UtilsIO.getCsvFile()).length() != 0L)) {
+                                    System.out.println("Select a party: ");
+                                    UtilsIO.printCsv(UtilsIO.getCsvFile());
+                                } else {
+                                    Menu.printWithColor("\nNo parties stored yet!!\nPlease create a manual party.", ConsoleColors.RED);
+                                }
+                            }
                             case 4 -> backToMainMenu = true;
                             default -> printWithColor("Invalid option. Please select a number from the menu\n", ConsoleColors.RED);
                         }
@@ -104,7 +112,7 @@ public class Menu {
                                 Type your selection, and press enter:
                                 """;
                         System.out.println(battleMenu);
-                        pickedOption = lector.nextInt();
+                        pickedOption = UtilsIO.DATA.nextInt();
                         switch (pickedOption) {
                             case 1 -> Battle.executeArcadeBattle(party1, party2);
                             case 2 -> Battle.executeVSBattle(party1, party2);
