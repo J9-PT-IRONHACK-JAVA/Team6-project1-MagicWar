@@ -9,8 +9,6 @@ public class Warrior extends Character {
         setAlive(true);
     }
 
-
-
     private int stamina;
     private int strength;
 

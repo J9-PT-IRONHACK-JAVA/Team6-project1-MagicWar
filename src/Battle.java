@@ -109,6 +109,7 @@ public class Battle {
             Menu.printWithColor("\nParty 2 has won!!\n", ConsoleColors.GREEN_BACKGROUND);
         }
 
+
         try{
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -126,8 +127,9 @@ public class Battle {
                   ░   ░   ░▒ ░ ▒░  ▒   ▒▒ ░░ ░░   ░ ░  ░▓██ ░▒░   ▒   ▒▒ ░  ░▒ ░ ▒░ ░ ▒  ▒   \s
                 ░ ░   ░   ░░   ░   ░   ▒     ░░     ░   ▒ ▒ ░░    ░   ▒     ░░   ░  ░ ░  ░   \s
                       ░    ░           ░  ░   ░     ░  ░░ ░           ░  ░   ░        ░      \s
-                                             ░          ░ ░                         ░        \s
+                                             ░          ░ ░                         ░        \
 
+                                
                 """, ConsoleColors.PURPLE);
         Menu.printWithColor("\u2620 Rest in peace " + getDeadNames(graveyard) + " \u2620", ConsoleColors.PURPLE);
     }
@@ -189,17 +191,17 @@ public class Battle {
             System.out.println(i + " - Name:" + party1.getCharactersInParty().get(i).name + " Health points:" + party1.getCharactersInParty().get(i).hp + " " );
 
         }
+       // input = UtilsIO.DATA.nextLine().trim().toLowerCase();
         input = scanner.nextLine().trim().toLowerCase();
 
         if(isNumeric(input)){
             int parsedInput=Integer.parseInt(input);
-            selectedPlayer =party1.getCharactersInParty().get(parsedInput);
-        }
-        if (selectedPlayer != null) {
-            System.out.println(selectedPlayer);
+            if(parsedInput <= party1.getCharactersInParty().size() &&  parsedInput >= 0) selectedPlayer =  party1.getCharactersInParty().get(parsedInput);
         } else {
-            System.out.println("You haven't selected a player");
+            Menu.printWithColor("You have not inserted any of the options so we chose one for you. Be more careful next time \uD83D\uDE08", ConsoleColors.PURPLE);
+            selectedPlayer =  party1.getCharactersInParty().get(0);
         }
+            System.out.println(selectedPlayer);
 
         return selectedPlayer;
     }

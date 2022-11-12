@@ -1,6 +1,5 @@
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Menu {
 
@@ -21,7 +20,7 @@ public class Menu {
         printWithColor(logo, ConsoleColors.PURPLE);
 
         var mainMenu = """  
-                \nSelect an option to play:
+                Select an option to play:
                 =================================
                 1- Create Parties of characters for the battle
                 2- Start a battle
@@ -35,8 +34,7 @@ public class Menu {
 
         do {
             System.out.println(mainMenu);
-            Scanner lector = new Scanner(System.in);
-            var pickedOption = lector.nextInt();
+            var pickedOption = UtilsIO.DATA.nextInt();
             switch (pickedOption) {
                 case 1:
                     boolean hasTwoParties = false;
@@ -65,7 +63,7 @@ public class Menu {
                             pickedOption = 4;
                         } else {
                             System.out.println(partyCreationMenu);
-                            pickedOption = lector.nextInt();
+                            pickedOption = UtilsIO.DATA.nextInt();
                         }
                         switch (pickedOption) {
                             case 1 -> {
@@ -77,8 +75,18 @@ public class Menu {
                                 newParty = Party.createManualParty();
                                 if (party1.getCharactersInParty().isEmpty()) party1.setCharactersInParty(newParty);
                                 else party2.setCharactersInParty(newParty);
+                                System.out.println("Do you want to store this party?\n1- yes\n2- no");
+                                var option = UtilsIO.DATA.nextInt();
+                                if (option == 1) UtilsIO.writePartyToCsv(UtilsIO.getCsvFile(), newParty);
                             }
-                            case 3 -> printWithColor("Not implemented yet select another option", ConsoleColors.CYAN);
+                            case 3 -> {
+                                if (((UtilsIO.getCsvFile()).length() != 0L)) {
+                                    System.out.println("Select a party: ");
+                                    UtilsIO.printCsv(UtilsIO.getCsvFile());
+                                } else {
+                                    Menu.printWithColor("\nNo parties stored yet!!\nPlease create a manual party.", ConsoleColors.RED);
+                                }
+                            }
                             case 4 -> backToMainMenu = true;
                             default -> printWithColor("Invalid option. Please select a number from the menu\n", ConsoleColors.RED);
                         }
@@ -105,7 +113,7 @@ public class Menu {
                                 Type your selection, and press enter:
                                 """;
                         System.out.println(battleMenu);
-                        pickedOption = lector.nextInt();
+                        pickedOption = UtilsIO.DATA.nextInt();
                         switch (pickedOption) {
                             case 1 -> Battle.executeArcadeBattle(party1, party2);
                             case 2 -> Battle.executeVSBattle(party1, party2);
@@ -118,15 +126,15 @@ public class Menu {
                 case 3:
                     var instructions = """                                
                               \u2694 \uD83D\uDD2E  War of Magic Instructions \u2694 \uD83D\uDD2E 
-
+                            
                               Welcome to the land of fantasy!
                               Where humble mighty warriors meet powerful wizards in 
                               fateful battles.
                               First step is creating the two parties of fighters. 
                               They can be either warriors \u2694 or wizards \uD83D\uDD2E 
-
+                               
                               ====================================
-
+                               
                               OPTIONS
                               All warriors have a name, health points,
                               strength and stamina.
@@ -137,20 +145,21 @@ public class Menu {
                               -Random generated party
                               -Manual creation
                               -Load from a CSV file
-
+                               
                               Then you can proceed to battle.
                               These are the options:
                               -Arcade --> Play against the computer
                               -VS. (Manual Battle) --> Play with a friend and each one gets to choose his fighter
 
                               ====================================
-
+                               
                               RULES
                               Warriors are strong well armored characters that focus on the attribute strength.
                               Every round a warrior will try to do a “Heavy attack”. The damage of a heavy attack
                               is equal to their strength and every hit will decrease their stamina by 5 points. 
                               If he can’t make a heavy attack he will do a “Weak attack”. The damage of a weak attack 
                               is the half of the strength (truncate decimals). Every weak attack will recover his stamina by 1.
+                                                          
 
                               Wizards are the masters of the arcane their main attribute is intelligence.
                               Every round a wizard will try to cast a “Fireball”. The damage of a fireball is equal
@@ -158,11 +167,13 @@ public class Menu {
                               If he can’t cast a fireball he will do a “Staff hit”. The damage of a staff hit is equals to 2.
                               Every staff hit will recover his mana by 1.
 
+                                                          
                               When the battle is over the winner will return to the party and the loser
                               will be removed and sent to the graveyard. Then you can choose the combatants for the next duel.                         
                               When a party lose all their members a winner party is declared.
 
-                              May the mightier win!                        
+                              May the mightier win!    
+                                                  
                               ====================================
                             """;
                     printWithColor(instructions, ConsoleColors.BLACK_BACKGROUND);
