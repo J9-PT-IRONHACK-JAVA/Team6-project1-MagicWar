@@ -7,9 +7,15 @@ public class Battle {
 
     public static void randomWar(Party party1, Party party2) {
         if (party1.getCharactersInParty().isEmpty()) party1.setCharactersInParty(Party.createPartyRandom());
-        System.out.println("Party 1:" + party1.getCharactersInParty().size() + " Characters\n" + party1.getCharactersInParty());
+        System.out.println("\nPARTY 1:");
+        System.out.println("=========\n");
+        printParty(party1);
+
         if (party2.getCharactersInParty().isEmpty()) party2.setCharactersInParty(Party.createPartyRandom());
-        System.out.println("Party 2:" + party2.getCharactersInParty().size() + " Characters\n" + party2.getCharactersInParty());
+        System.out.println("\nPARTY 2:");
+        System.out.println("=========\n");
+        printParty(party2);
+
         executeRandomBattle(party1, party2);
     }
 
@@ -31,10 +37,12 @@ public class Battle {
     public static void executeArcadeBattle (Party party1, Party party2) {
 
         var graveyard = new ArrayList<Character>();
-        Random rand = new Random();
+//        Random rand = new Random();
 
         do {
-            var selectedCharacterParty1 = pickPlayer(party1);
+            System.out.println("\nSelect a character from Party1 to fight:");
+            System.out.println("========================================\n");
+            var selectedCharacterParty1 = pickPlayer_EDIT(party1);
             var selectedCharacterParty2 = party2.getCharactersInParty().get(rand.nextInt(party2.getCharactersInParty().size()));
 
             announceDuel(selectedCharacterParty1, selectedCharacterParty2);
@@ -49,10 +57,14 @@ public class Battle {
 
     public static void executeVSBattle (Party party1, Party party2) {
         var graveyard = new ArrayList<Character>();
-        Random rand = new Random();
+//        Random rand = new Random();
         do {
-            var selectedCharacterParty1 = pickPlayer(party1);
-            var selectedCharacterParty2 = pickPlayer(party2);
+            System.out.println("\nPLAYER 1: Select a character from Party1 to fight:");
+            System.out.println("==================================================\n");
+            var selectedCharacterParty1 = pickPlayer_EDIT(party1);
+            System.out.println("\nPLAYER 2: Select a character from Party2 to fight:");
+            System.out.println("==================================================\n");
+            var selectedCharacterParty2 = pickPlayer_EDIT(party2);
 
             announceDuel(selectedCharacterParty1, selectedCharacterParty2);
             executeDuelAndBury(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
@@ -63,20 +75,61 @@ public class Battle {
 
     }
     private static void announceDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
-        // TODO improve presentation of characters to play
-        System.out.print(selectedCharacterParty1 + " ");
-        System.out.println(selectedCharacterParty2);
+
+        System.out.println();
+        Menu.printWithColor("Players to fight", ConsoleColors.BLACK_BACKGROUND);
+        System.out.println("Party\tName\t\tHP\t\tStrength/Intelligence\tStamina/Mana");
+        System.out.println("-----\t----\t\t--\t\t---------------------\t------------");
+        
+        printWarriorWizard("1", selectedCharacterParty1);
+        printWarriorWizard("2", selectedCharacterParty2);
+    }
+
+    private static void printWarriorWizard(String playerNum, Character selectedCharacterPartyX) {
+        if (selectedCharacterPartyX instanceof Warrior) {
+            Warrior playerToPrint = (Warrior) selectedCharacterPartyX;
+            System.out.printf("%s\t\t%s\t%s\t\t%s\t\t\t\t\t\t%s\n",
+                    playerNum, playerToPrint.getName(), playerToPrint.getHp()
+                    , playerToPrint.getStrength(), playerToPrint.getStamina());
+        } else {
+            Wizard playerToPrint = (Wizard) selectedCharacterPartyX;
+            System.out.printf("%s\t\t%s\t%s\t\t%s\t\t\t\t\t\t%s\n",
+                    playerNum, playerToPrint.getName(), playerToPrint.getHp()
+                    , playerToPrint.getIntelligence(), playerToPrint.getMana());
+        }
     }
 
     private static void announceBattleOutcome(Party party1, ArrayList<Character> graveyard) {
         //Show winning party and Graveyard
+        System.out.println();
         if (!party1.getCharactersInParty().isEmpty()) {
-            Menu.printWithColor("Party 1 has won", ConsoleColors.GREEN_BOLD);
+
+            Menu.printWithColor("\nParty 1 has won!!\n", ConsoleColors.GREEN_BACKGROUND);
         } else {
-            Menu.printWithColor("Party 2 has won", ConsoleColors.GREEN_BOLD);
+            Menu.printWithColor("\nParty 2 has won!!\n", ConsoleColors.GREEN_BACKGROUND);
         }
 
-        Menu.printWithColor("Count your dead both teams: " + getDeadNames(graveyard), ConsoleColors.PURPLE);
+        try{
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            System.out.println("Sleep interrupted");
+        }
+
+        Menu.printWithColor("""
+                  
+                  ▄████  ██▀███   ▄▄▄    ██▒   █▓▓█████▓██   ██▓ ▄▄▄       ██▀███  ▓█████▄   \s
+                 ██▒ ▀█▒▓██ ▒ ██▒▒████▄ ▓██░   █▒▓█   ▀ ▒██  ██▒▒████▄    ▓██ ▒ ██▒▒██▀ ██▌  \s
+                ▒██░▄▄▄░▓██ ░▄█ ▒▒██  ▀█▄▓██  █▒░▒███    ▒██ ██░▒██  ▀█▄  ▓██ ░▄█ ▒░██   █▌  \s
+                ░▓█  ██▓▒██▀▀█▄  ░██▄▄▄▄██▒██ █░░▒▓█  ▄  ░ ▐██▓░░██▄▄▄▄██ ▒██▀▀█▄  ░▓█▄   ▌  \s
+                ░▒▓███▀▒░██▓ ▒██▒ ▓█   ▓██▒▒▀█░  ░▒████▒ ░ ██▒▓░ ▓█   ▓██▒░██▓ ▒██▒░▒████▓   \s
+                 ░▒   ▒ ░ ▒▓ ░▒▓░ ▒▒   ▓▒█░░ ▐░  ░░ ▒░ ░  ██▒▒▒  ▒▒   ▓▒█░░ ▒▓ ░▒▓░ ▒▒▓  ▒   \s
+                  ░   ░   ░▒ ░ ▒░  ▒   ▒▒ ░░ ░░   ░ ░  ░▓██ ░▒░   ▒   ▒▒ ░  ░▒ ░ ▒░ ░ ▒  ▒   \s
+                ░ ░   ░   ░░   ░   ░   ▒     ░░     ░   ▒ ▒ ░░    ░   ▒     ░░   ░  ░ ░  ░   \s
+                      ░    ░           ░  ░   ░     ░  ░░ ░           ░  ░   ░        ░      \s
+                                             ░          ░ ░                         ░        \s
+
+                """, ConsoleColors.PURPLE);
+        Menu.printWithColor("\u2620 Rest in peace " + getDeadNames(graveyard) + " \u2620", ConsoleColors.PURPLE);
     }
 
     private static void executeDuelAndBury(Party party1, Party party2, ArrayList<Character> graveyard, Character selectedCharacterParty1, Character selectedCharacterParty2) {
@@ -88,29 +141,32 @@ public class Battle {
 
     private static ArrayList<String> getDeadNames(ArrayList<Character> graveyard){
         var deadNameList = new ArrayList<String>();
-        for (int i = 0; i < graveyard.size(); i++){
-            deadNameList.add(graveyard.get(i).getName());
+        for (Character character : graveyard) {
+            deadNameList.add(character.getName());
         }
         return deadNameList;
     }
 
     static void executeDuel(Character selectedCharacterParty1, Character selectedCharacterParty2) {
-        do { //TODO improve presentation of battle. Is it possible that the HP position is static and overwritten? Maybe display the attacks happening with a time-delay?
-            System.out.print(selectedCharacterParty1.getName() + ": "+ selectedCharacterParty1.getHp() + " ");
-            System.out.println(selectedCharacterParty2.getName() + ": "+ selectedCharacterParty2.getHp());
-
+        Menu.printWithColor("FIGHT!", ConsoleColors.BLACK_BACKGROUND_BRIGHT);
+        do {
             selectedCharacterParty1.receiveDamage(selectedCharacterParty2.attack());
             selectedCharacterParty2.receiveDamage(selectedCharacterParty1.attack());
 
-            System.out.print(selectedCharacterParty1.getName() + ": "+ selectedCharacterParty1.getHp() + " ");
-            System.out.println(selectedCharacterParty2.getName() + ": "+ selectedCharacterParty2.getHp());
+            System.out.printf("Player1 HP: %s \t\t Player2 HP: %s\r", selectedCharacterParty1.getHp(), selectedCharacterParty2.getHp());
 
+            try{
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                System.out.println("Sleep interrupted");
+            }
 
         } while (selectedCharacterParty1.isAlive() && selectedCharacterParty2.isAlive());
 
-        //TODO improve display of result of battle
-        System.out.println(selectedCharacterParty1.getName() + ": is Alive-> " + selectedCharacterParty1.isAlive() + " " + ", Health points-> " + selectedCharacterParty1.getHp());
-        System.out.println(selectedCharacterParty2.getName() + ": is Alive-> " + selectedCharacterParty2.isAlive()  + ", Health points-> " + selectedCharacterParty2.getHp() );
+        System.out.println();
+        if (!selectedCharacterParty1.isAlive()) Menu.printWithColor("Player1 " + selectedCharacterParty1.getName() + " is dead", ConsoleColors.RED_BACKGROUND);
+        else Menu.printWithColor("Player2 " + selectedCharacterParty2.getName() + " is dead", ConsoleColors.RED_BACKGROUND);
+
     }
 
     private static void sendToGraveyard(Party party1, Party party2, ArrayList<Character> graveyard, Character selectedCharacterParty1, Character selectedCharacterParty2) {
@@ -127,7 +183,7 @@ public class Battle {
 
     public static Character pickPlayer(Party party1) {
         Scanner scanner = new Scanner(System.in);
-        String input= null;
+        String input; //= null;
         Character selectedPlayer= null;
         for (int i = 0; i < party1.getCharactersInParty().size(); i++) {
             System.out.println(i + " - Name:" + party1.getCharactersInParty().get(i).name + " Health points:" + party1.getCharactersInParty().get(i).hp + " " );
@@ -147,10 +203,38 @@ public class Battle {
 
         return selectedPlayer;
     }
+
+    public static Character pickPlayer_EDIT(Party party) {
+        Scanner scanner = new Scanner(System.in);
+        String input;
+        Character selectedPlayer;
+        printParty(party);
+        System.out.println("\nPlease type the position of your selection:");
+
+        input = scanner.nextLine().trim().toLowerCase();
+
+        if(isNumeric(input)){
+            int parsedInput = Integer.parseInt(input);
+            selectedPlayer = party.getCharactersInParty().get(Math.max(party.getCharactersInParty().size(),parsedInput));
+        } else {
+            Menu.printWithColor("You have not inserted any of the options so we chose one for you. Be more careful next time \uD83D\uDE08", ConsoleColors.PURPLE);
+            selectedPlayer =  party.getCharactersInParty().get(0);
+        }
+        return selectedPlayer;
+    }
+
     public static boolean isNumeric(String str) {
         if(str !=null){
         return str.matches("-?\\d+(\\.\\d+)?");  }
             else return false;
+    }
+
+    private static void printParty(Party party) {
+        System.out.println("Place\tName\t\tHP\t\tStrength/Intelligence\tStamina/Mana");
+        System.out.println("-----\t----\t\t--\t\t---------------------\t------------");
+        for (int i = 0; i < party.getCharactersInParty().size(); i++) {
+            printWarriorWizard(Integer.toString(i), party.getCharactersInParty().get(i));
+        }
     }
 
 }
