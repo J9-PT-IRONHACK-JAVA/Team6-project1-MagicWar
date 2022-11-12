@@ -19,10 +19,10 @@ public class Party {
 
     public static ArrayList<Character> createPartyRandom() {
         var randomParty = new ArrayList<Character>();
-        String[] warriorNameList = {"Arne", "Birger", "Bjørn", "Bo", "Erik", "Frode", "Gorm", "Halfdan", "Rashmi", "Zhenya"};
-        String[] wizardNameList = {"Leilani", "Mpho", "Rupinder", "Vinnie", "Zhihao", "Padma", "Inyene", "Ime", "Suman", "Tayler"};
+        String[] warriorNameList = {"Arnel", "Birger", "Bjørn", "Bolsen", "Eriks", "Frode", "Gormo", "Halfda", "Rashmi", "Zhenya"};
+        String[] wizardNameList = {"Leilu", "Mphor", "Rupin", "Vinnie", "Zhihao", "Padma", "Inyene", "Imeks", "Suman", "Tayler"};
         Random rand = new Random();
-        int numOfPlayerInParty = rand.nextInt(10 - 5) + 5;
+        int numOfPlayerInParty = rand.nextInt(5 - 3) + 3;
         int idWar = 0;
         int idWiz = 0;
         for (int i = 0; i < numOfPlayerInParty; i++) {
@@ -55,6 +55,7 @@ public class Party {
     private static void addJrToName(ArrayList<Character> party, Character newCharacter) {
         Boolean nameExists = party.stream().map(Character::getName).anyMatch(newCharacter.name::equals);
         if (nameExists) newCharacter.name = newCharacter.name + " Jr";
+        else newCharacter.name = newCharacter.name + "   ";
     }
 
     public static ArrayList<Character> createManualParty() {
@@ -81,7 +82,10 @@ public class Party {
                      """.formatted(currentParty.size());
 
              System.out.println(manualPartyMenu);
+
              input = UtilsIO.DATA.nextLine().trim().toLowerCase();
+             if (currentParty.size() == 5) input = "3";
+
              switch (input) {
                  case "1" -> currentParty.add(createWarriorManual());
                  case "2" -> currentParty.add(createWizardManual());
