@@ -104,9 +104,17 @@ public class Battle {
         System.out.println();
         if (!party1.getCharactersInParty().isEmpty()) {
 
-            Menu.printWithColor("\nParty 1 has won!!\n", ConsoleColors.GREEN_BACKGROUND);
+            Menu.printWithColor("""
+                    
+                    \uD83C\uDFC6 \uD83E\uDD47 Party 1 has won!! \uD83C\uDFC6 \uD83E\uDD47
+                    
+                    """, ConsoleColors.GREEN_BACKGROUND);
         } else {
-            Menu.printWithColor("\nParty 2 has won!!\n", ConsoleColors.GREEN_BACKGROUND);
+            Menu.printWithColor("""
+                    
+                    \uD83C\uDFC6 \uD83E\uDD47 Party 2 has won!! \uD83C\uDFC6 \uD83E\uDD47
+                    
+                    """, ConsoleColors.GREEN_BACKGROUND);
         }
 
 
@@ -217,7 +225,7 @@ public class Battle {
 
         if(isNumeric(input)){
             int parsedInput = Integer.parseInt(input);
-            selectedPlayer = party.getCharactersInParty().get(Math.max(party.getCharactersInParty().size(),parsedInput));
+            selectedPlayer = party.getCharactersInParty().get(Math.max(party.getCharactersInParty().size()-1 ,parsedInput));
         } else {
             Menu.printWithColor("You have not inserted any of the options so we chose one for you. Be more careful next time \uD83D\uDE08", ConsoleColors.PURPLE);
             selectedPlayer =  party.getCharactersInParty().get(0);

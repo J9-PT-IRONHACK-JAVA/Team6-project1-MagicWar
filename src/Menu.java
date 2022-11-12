@@ -75,13 +75,13 @@ public class Menu {
                                 newParty = Party.createManualParty();
                                 if (party1.getCharactersInParty().isEmpty()) party1.setCharactersInParty(newParty);
                                 else party2.setCharactersInParty(newParty);
-                                System.out.println("Do you want to store this party?\n1- yes\n2- no");
+                                System.out.println("Do you want to store this party in a CSV file?\n1- yes\n2- no");
                                 var option = UtilsIO.DATA.nextInt();
                                 if (option == 1) UtilsIO.writePartyToCsv(UtilsIO.getCsvFile(), newParty);
                             }
                             case 3 -> {
                                 if (((UtilsIO.getCsvFile()).length() != 0L)) {
-                                    System.out.println("Select a party: ");
+                                    System.out.println("Party loaded: ");
                                     UtilsIO.printCsv(UtilsIO.getCsvFile());
                                 } else {
                                     Menu.printWithColor("\nNo parties stored yet!!\nPlease create a manual party.", ConsoleColors.RED);
