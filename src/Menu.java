@@ -50,7 +50,7 @@ public class Menu {
                             ==================================== 
                             1- Random generated party
                             2- Manual creation
-                            3- Load from a CSV file
+                            3- Load party from a CSV file
                             4- Back to Main Menu
                             ====================================
                             Type your selection, and press enter:
@@ -74,14 +74,19 @@ public class Menu {
                                 newParty = Party.createManualParty();
                                 if (party1.getCharactersInParty().isEmpty()) party1.setCharactersInParty(newParty);
                                 else party2.setCharactersInParty(newParty);
-                                System.out.println("Do you want to store this party?\n1- yes\n2- no");
+                                System.out.println("Do you want to store this party for later?\n1- yes\n2- no");
                                 var option = UtilsIO.DATA.nextInt();
                                 if (option == 1) UtilsIO.writePartyToCsv(UtilsIO.getCsvFile(), newParty);
                             }
                             case 3 -> {
                                 if (((UtilsIO.getCsvFile()).length() != 0L)) {
-                                    System.out.println("Select a party: ");
+                                    System.out.println("Select a party from the following: ");
                                     UtilsIO.printCsv(UtilsIO.getCsvFile());
+//                                    var option = UtilsIO.DATA.nextInt();
+//                                    newParty = UtilsIO.assignPartyFromCSV(option);
+                                    if (party1.getCharactersInParty().isEmpty()) party1.setCharactersInParty(newParty);
+                                    else party2.setCharactersInParty(newParty);
+
                                 } else {
                                     Menu.printWithColor("\nNo parties stored yet!!\nPlease create a manual party.", ConsoleColors.RED);
                                 }

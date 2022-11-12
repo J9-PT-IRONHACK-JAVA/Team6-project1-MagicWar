@@ -13,13 +13,14 @@ public class UtilsIO {
     private static final String path = "./savedParties.csv";
 
     private static File csvFile = new File(path);
-
+    private static int nextPartyCount = 1;
     //write files to csv
 
     public static void writePartyToCsv(File csvFile, ArrayList<Character> party) {
         try {
             FileWriter writer = new FileWriter(csvFile, true);
             StringBuilder builder = new StringBuilder();
+            builder.append("Party " + getNextPartyCount());
             for (Character el : party) {
                 builder.append(el.getId());
                 builder.append(", ");
@@ -27,7 +28,6 @@ public class UtilsIO {
                 builder.append(", ");
                 builder.append(el.getHp());
                 builder.append(", ");
-                //warrior: stamina strength wizard: mana intelligence
                 if(el instanceof Warrior) {
                     builder.append(((Warrior) el).getStamina());
                     builder.append(", ");
@@ -41,11 +41,12 @@ public class UtilsIO {
                     builder.append(", ");
                     builder.append(2); //@TODO this is an index to let know that what's readen is a wizard - implement
                 }
-                builder.append(";\n");
+                builder.append("; ");
                 writer.write(builder.toString());
             }
             writer.write('/'); //@TODO this is the delimiter of a party ending - implement
             writer.close();
+            setNextPartyCountFromCsv(nextPartyCount++);
             System.out.println("Success writing party in file.");
         }catch(Exception e){
             System.out.println(e);
@@ -77,9 +78,6 @@ public class UtilsIO {
                 System.out.println(Arrays.toString(itemArr));
                 line = lector.readLine();
             }
-//            System.out.println(Arrays.toString(itemArr));
-//            lector.useDelimiter(";");
-//            while (lector.hasNext()) System.out.print(lector.next());
             lector.close();
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
@@ -102,11 +100,41 @@ public class UtilsIO {
         }
     }
 
+    public void assignPartyFromCSV(int option){
+        //create empty character arraylist
+        ArrayList<Character> assignedPartyFromCsv = new ArrayList<Character>();
+        //loop arraylist searching for the option
+        try {
+            BufferedReader lector = new BufferedReader(new FileReader(csvFile));
+            String line = lector.readLine();
+            while (null != line) {
+                String[] itemArr = line.split(";");
+                System.out.println(Arrays.toString(itemArr));
+                line = lector.readLine();
+            }
+            lector.close();
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //
+    }
+
+
     public static File getCsvFile() {
         return csvFile;
     }
 
     public void setCsvFile(File csvFile) {
         this.csvFile = csvFile;
+    }
+
+    public static int getNextPartyCount() {
+        return nextPartyCount;
+    }
+
+    public void setNextPartyCountFromCsv(int nextParty) {
+        this.nextPartyCount = nextParty;
     }
 }
