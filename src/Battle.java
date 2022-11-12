@@ -150,7 +150,7 @@ public class Battle {
 
         if(isNumeric(input)){
             int parsedInput=Integer.parseInt(input);
-            if(parsedInput <= party1.getCharactersInParty().size() &&  parsedInput > 0) selectedPlayer =  party1.getCharactersInParty().get(parsedInput);
+            if(parsedInput <= party1.getCharactersInParty().size() &&  parsedInput >= 0) selectedPlayer =  party1.getCharactersInParty().get(parsedInput);
         } else {
             Menu.printWithColor("You have not inserted any of the options so we chose one for you. Be more careful next time \uD83D\uDE08", ConsoleColors.PURPLE);
             selectedPlayer =  party1.getCharactersInParty().get(0);
