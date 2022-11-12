@@ -50,7 +50,6 @@ public class Warrior extends Character {
                 ", strength=" + strength +
                 "} ";
     }
-
     @Override
     public int attack() {
         //heavy attack
