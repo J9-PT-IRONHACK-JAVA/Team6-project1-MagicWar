@@ -37,12 +37,11 @@ public class Battle {
     public static void executeArcadeBattle (Party party1, Party party2) {
 
         var graveyard = new ArrayList<Character>();
-//        Random rand = new Random();
 
         do {
             System.out.println("\nSelect a character from Party1 to fight:");
             System.out.println("========================================\n");
-            var selectedCharacterParty1 = pickPlayer_EDIT(party1);
+            var selectedCharacterParty1 = pickPlayer(party1);
             var selectedCharacterParty2 = party2.getCharactersInParty().get(rand.nextInt(party2.getCharactersInParty().size()));
 
             announceDuel(selectedCharacterParty1, selectedCharacterParty2);
@@ -57,14 +56,13 @@ public class Battle {
 
     public static void executeVSBattle (Party party1, Party party2) {
         var graveyard = new ArrayList<Character>();
-//        Random rand = new Random();
         do {
             System.out.println("\nPLAYER 1: Select a character from Party1 to fight:");
             System.out.println("==================================================\n");
-            var selectedCharacterParty1 = pickPlayer_EDIT(party1);
+            var selectedCharacterParty1 = pickPlayer(party1);
             System.out.println("\nPLAYER 2: Select a character from Party2 to fight:");
             System.out.println("==================================================\n");
-            var selectedCharacterParty2 = pickPlayer_EDIT(party2);
+            var selectedCharacterParty2 = pickPlayer(party2);
 
             announceDuel(selectedCharacterParty1, selectedCharacterParty2);
             executeDuelAndBury(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
@@ -143,7 +141,6 @@ public class Battle {
     }
 
     private static void executeDuelAndBury(Party party1, Party party2, ArrayList<Character> graveyard, Character selectedCharacterParty1, Character selectedCharacterParty2) {
-        //Duel
         executeDuel(selectedCharacterParty1, selectedCharacterParty2);
         sendToGraveyard(party1, party2, graveyard, selectedCharacterParty1, selectedCharacterParty2);
     }
@@ -190,31 +187,7 @@ public class Battle {
         }
     }
 
-
-    public static Character pickPlayer(Party party1) {
-        Scanner scanner = new Scanner(System.in);
-        String input; //= null;
-        Character selectedPlayer= null;
-        for (int i = 0; i < party1.getCharactersInParty().size(); i++) {
-            System.out.println(i + " - Name:" + party1.getCharactersInParty().get(i).name + " Health points:" + party1.getCharactersInParty().get(i).hp + " " );
-
-        }
-       // input = UtilsIO.DATA.nextLine().trim().toLowerCase();
-        input = scanner.nextLine().trim().toLowerCase();
-
-        if(isNumeric(input)){
-            int parsedInput=Integer.parseInt(input);
-            if(parsedInput <= party1.getCharactersInParty().size() &&  parsedInput >= 0) selectedPlayer =  party1.getCharactersInParty().get(parsedInput);
-        } else {
-            Menu.printWithColor("You have not inserted any of the options so we chose one for you. Be more careful next time \uD83D\uDE08", ConsoleColors.PURPLE);
-            selectedPlayer =  party1.getCharactersInParty().get(0);
-        }
-            System.out.println(selectedPlayer);
-
-        return selectedPlayer;
-    }
-
-    public static Character pickPlayer_EDIT(Party party) {
+    public static Character pickPlayer(Party party) {
         Scanner scanner = new Scanner(System.in);
         String input;
         Character selectedPlayer;
