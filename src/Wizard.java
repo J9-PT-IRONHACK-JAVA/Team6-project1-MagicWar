@@ -1,11 +1,16 @@
-public class Wizard extends Character implements Attacker {
+public class Wizard extends Character {
     private int mana;
     private int intelligence;
 
-    public Wizard(String id, String name, int hp, boolean isAlive, int mana, int intelligence) {
-        super(id, name, hp, isAlive);
+    public Wizard(int id, String name, int hp, int mana, int intelligence) {
+        super(id, name, hp);
+        setHp(hp);
         this.mana = mana;
         this.intelligence = intelligence;
+        setAlive(true);
+    }
+
+    public Wizard() {
     }
 
     public int getMana() {
@@ -29,6 +34,13 @@ public class Wizard extends Character implements Attacker {
     }
 
     @Override
+    public void setHp(int hp) {
+        if (hp>100) hp = 100;
+        else if (hp<50) hp = 50;
+        super.setHp(hp);
+    }
+
+    @Override
     public int attack() {
         //Fireball
         if(mana > 5){
@@ -43,13 +55,14 @@ public class Wizard extends Character implements Attacker {
     }
 
     @Override
-    public boolean receiveDamage(int damage) {
-        if(hp > damage){
-            hp -= damage;
-        } else {
-            hp = 0;
-            isAlive = false;
-        }
-        return isAlive;
+    public String toString() {
+        return "Wizard{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", hp=" + hp +
+                ", isAlive=" + isAlive +
+                ", mana=" + mana +
+                ", intelligence=" + intelligence +
+                '}';
     }
 }

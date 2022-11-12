@@ -1,11 +1,9 @@
-import java.util.ArrayList;
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
 
-    }
-    public ArrayList<Character> createPartiesRandom {
+        var party1 = new Party(1);
+        var party2 = new Party(2);
 
+        Menu.mainMenu(party1, party2);
     }
 }

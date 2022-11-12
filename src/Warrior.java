@@ -1,9 +1,14 @@
-public class Warrior extends Character implements Attacker {
-    public Warrior(String id, String name, int hp, boolean isAlive, int stamina, int strength) {
-        super(id, name, hp, isAlive);
+public class Warrior extends Character {
+    public Warrior() {
+    }
+    public Warrior(int id, String name, int hp, int stamina, int strength) {
+        super(id, name, hp);
+        setHp(hp);
         setStamina(stamina);
         setStrength(strength);
+        setAlive(true);
     }
+
     private int stamina;
     private int strength;
 
@@ -28,6 +33,13 @@ public class Warrior extends Character implements Attacker {
     }
 
     @Override
+    public void setHp(int hp) {
+        if (hp>200) hp = 200;
+        else if (hp<100) hp = 100;
+        super.setHp(hp);
+    }
+
+    @Override
     public String toString() {
         return "Warrior{" +
                 "id='" + id + '\'' +
@@ -36,9 +48,8 @@ public class Warrior extends Character implements Attacker {
                 ", isAlive=" + isAlive +
                 ", stamina=" + stamina +
                 ", strength=" + strength +
-                "} " + super.toString();
+                "} ";
     }
-
     @Override
     public int attack() {
         //heavy attack
@@ -51,16 +62,5 @@ public class Warrior extends Character implements Attacker {
             stamina += 1;
             return strength/2;
         }
-    }
-
-    @Override
-    public boolean receiveDamage(int damage) {
-        if(hp > damage){
-            hp -= damage;
-        } else {
-            hp = 0;
-            isAlive = false;
-        }
-        return isAlive;
     }
 }
